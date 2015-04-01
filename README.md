@@ -1,5 +1,6 @@
 # translitify
-Javascript transliteration of Latin letters to the Cyrillic ones or to something else. Applicable to any textarea and input (text).
+Javascript transliteration of Latin letters to the Cyrillic ones or to something else. 
+Applicable to any textarea and input (text).
 
 ##German/Deutsch
 Dieses Modul ermöglicht es, ein Textfeld so umzuwandeln, 
