@@ -16,7 +16,9 @@ Anwendung:
 ```
 
 3.) Binde weiterhin die Buchstabenprofile, welche du nutzen möchtest ein
+```
 <script src="profiles/latin/cyrillic.js"></script>
+```
 
 3.) Wandle dein Texteingabefeld um:
 ```
