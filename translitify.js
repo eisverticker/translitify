@@ -107,7 +107,7 @@ function translitifyBase(textarea, profile) {
         } else if (textarea.selectionStart !== undefined) {
 
             var val = textarea.value,
-				start;
+		start;
             
             if (textarea.selectionStart === 0) {
                 start = 0;
