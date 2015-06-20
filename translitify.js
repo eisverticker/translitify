@@ -1,7 +1,7 @@
 /*!
- * Translitify Tool 
+ * Translitify Tool
  * http://github.com/eisverticker/translitify
- * 
+ *
  * Transliteration made simple for textareas
  * Try it out!
  *
@@ -10,13 +10,12 @@
  */
 
 /* Table of contents:
- * 1. translitifyBase (Constructor-Function) 
+ * 1. translitifier (Constructor-Function)
  * 2. translitify (Function) -- uses 1.
  */
 
-//Prototype of Transliteration-Objects 
-function translitifyBase(textarea, profile) {
-
+//Prototype of Transliteration-Objects
+function translitifier(textarea, settings) {
     var me = this, //used for anon function in initTextArea..
 
 		//vars for handling special key actions like shift and control
@@ -28,7 +27,6 @@ function translitifyBase(textarea, profile) {
 		isCharMissed = false,
 
 		temporaryLetterExists = false, //for letter-replacement
-		currentNode = profile,
 
 		SPECIAL_KEYS = [
         'Shift',
@@ -44,16 +42,21 @@ function translitifyBase(textarea, profile) {
     };
 
 
-    /* ----------------------------------------------------------------
+    /*
      * PUBLIC Functions
      * ----------------------------------------------------------------
      */
 
-    this.setProfile = function (newProfile) {
-
-        profile = newProfile;
-        currentNode = profile;
-
+    this.setProfile = function (aFrom, aTo) {
+      if(this.profiles[aFrom][aTo] === undefined){
+        throw {
+         "message": "profile "+aFrom+"."+aTo+" doesn't exist",
+         "type": 'profile undefined'
+        };
+      }else{
+        this.from = aFrom;
+        this.to = aTo;
+      }
     };
 
     this.addEventListener = function (eventType, listener) {
@@ -68,17 +71,20 @@ function translitifyBase(textarea, profile) {
         //Dummy https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
     };
 
-    /* -----------------------------------------------------------------
+    /*
      * PRIVATE Functions
      * -----------------------------------------------------------------
      */
+    function getProfile(){
+      return me.profiles[me.from][me.to];
+    }
 
     function insertAtCaret(letter) {
 
         //old IE 8 (hope it works - not tested)
         if (document.selection !== undefined) {
             document.selection.createRange().text = letter;
-            //newer browsers	
+            //newer browsers
         } else if (textarea.selectionStart !== undefined) {
             var val = textarea.value;
             var start = textarea.selectionStart;
@@ -103,12 +109,12 @@ function translitifyBase(textarea, profile) {
             var pos = oldValue.indexOf(String.fromCharCode(2622));
             textarea.value = oldValue.substr(0, pos) + oldValue.substr(pos + 1);
 
-            //newer browsers	
+            //newer browsers
         } else if (textarea.selectionStart !== undefined) {
 
             var val = textarea.value,
-		start;
-            
+				start;
+
             if (textarea.selectionStart === 0) {
                 start = 0;
             } else {
@@ -134,7 +140,7 @@ function translitifyBase(textarea, profile) {
 
     }
 
-    //Returns something like "Shift", "A",... 
+    //Returns something like "Shift", "A",...
     function getKeyValue(event) {
 
         //Some browsers don't support event.key
@@ -193,6 +199,7 @@ function translitifyBase(textarea, profile) {
     }
 
     function processLetter(newLetter, event) {
+        var profile = getProfile();
 
         //case-sensitivity
         var size = writeUpperCase === true ? 'upper' : 'lower';
@@ -235,9 +242,9 @@ function translitifyBase(textarea, profile) {
         var keyup = function (event) {
 
             var key = getKeyValue(event);
-            
+
             if (key === null) return;
-            
+
             if (locked === true && key == "Control") {
                 locked = false;
             }
@@ -249,6 +256,8 @@ function translitifyBase(textarea, profile) {
 
         //chrome (and opera?) only
         textarea.onkeypress = function (event) {
+            var profile = getProfile();
+
             if (isCharMissed === true) {
                 if (textarea.isTranslitified === true && locked === false) {
 
@@ -282,6 +291,7 @@ function translitifyBase(textarea, profile) {
 
         //keydown-event-listener to replace letters
         var keydown = function (event) {
+          var profile = getProfile();
 
             if (textarea.isTranslitified === true && locked === false) {
 
@@ -323,14 +333,40 @@ function translitifyBase(textarea, profile) {
         //Activate transliteration by default
         textarea.isTranslitified = true;
 
-        //reference object	
+        //reference object
         textarea.translitifier = me;
     }
 
     initTextAreaEvents();
+    this.setProfile(settings.from, settings.to);
+    var currentNode = getProfile();
 }
 
-//Factory-Function
-function translitify(textarea, profile) {
-    new translitifyBase(textarea, profile);
+/**
+ * Statische Attribute
+ */
+translitifier.prototype = {
+  "profiles": {}
+};
+
+/**
+ * Adds a letter profile to all translitifiers
+ * @param {String} aFrom
+ * @param {String} aTo
+ * @param {Profile-Object}
+ */
+translitifier.prototype.addProfile = function(aFrom, aTo, profile){
+    if(this.profiles[aFrom] == undefined){
+      this.profiles[aFrom] = {};
+    }
+    this.profiles[aFrom][aTo] = profile;
+};
+
+/**
+ * Factory-Function
+ * @param {HTML-Node-Textarea} textarea
+ * @param {Settings-Objekt} settings
+ */
+function translitify(textarea, settings) {
+    new translitifier(textarea, settings);
 }
