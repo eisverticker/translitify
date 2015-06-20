@@ -15,8 +15,7 @@
  */
 
 //Prototype of Transliteration-Objects
-function translitifier(textarea, profile) {
-
+function translitifier(textarea, settings) {
     var me = this, //used for anon function in initTextArea..
 
 		//vars for handling special key actions like shift and control
@@ -28,7 +27,6 @@ function translitifier(textarea, profile) {
 		isCharMissed = false,
 
 		temporaryLetterExists = false, //for letter-replacement
-		currentNode = profile,
 
 		SPECIAL_KEYS = [
         'Shift',
@@ -44,16 +42,21 @@ function translitifier(textarea, profile) {
     };
 
 
-    /* ----------------------------------------------------------------
+    /*
      * PUBLIC Functions
      * ----------------------------------------------------------------
      */
 
-    this.setProfile = function (newProfile) {
-
-        profile = newProfile;
-        currentNode = profile;
-
+    this.setProfile = function (aFrom, aTo) {
+      if(this.profiles[aFrom][aTo] === undefined){
+        throw {
+         "message": "profile "+aFrom+"."+aTo+" doesn't exist",
+         "type": 'profile undefined'
+        };
+      }else{
+        this.from = aFrom;
+        this.to = aTo;
+      }
     };
 
     this.addEventListener = function (eventType, listener) {
@@ -68,10 +71,13 @@ function translitifier(textarea, profile) {
         //Dummy https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
     };
 
-    /* -----------------------------------------------------------------
+    /*
      * PRIVATE Functions
      * -----------------------------------------------------------------
      */
+    function getProfile(){
+      return me.profiles[me.from][me.to];
+    }
 
     function insertAtCaret(letter) {
 
@@ -193,6 +199,7 @@ function translitifier(textarea, profile) {
     }
 
     function processLetter(newLetter, event) {
+        var profile = getProfile();
 
         //case-sensitivity
         var size = writeUpperCase === true ? 'upper' : 'lower';
@@ -249,6 +256,8 @@ function translitifier(textarea, profile) {
 
         //chrome (and opera?) only
         textarea.onkeypress = function (event) {
+            var profile = getProfile();
+
             if (isCharMissed === true) {
                 if (textarea.isTranslitified === true && locked === false) {
 
@@ -282,6 +291,7 @@ function translitifier(textarea, profile) {
 
         //keydown-event-listener to replace letters
         var keydown = function (event) {
+          var profile = getProfile();
 
             if (textarea.isTranslitified === true && locked === false) {
 
@@ -328,9 +338,35 @@ function translitifier(textarea, profile) {
     }
 
     initTextAreaEvents();
+    this.setProfile(settings.from, settings.to);
+    var currentNode = getProfile();
 }
 
-//Factory-Function
-function translitify(textarea, profile) {
-    new translitifier(textarea, profile);
+/**
+ * Statische Attribute
+ */
+translitifier.prototype = {
+  "profiles": {}
+};
+
+/**
+ * Adds a letter profile to all translitifiers
+ * @param {String} aFrom
+ * @param {String} aTo
+ * @param {Profile-Object}
+ */
+translitifier.prototype.addProfile = function(aFrom, aTo, profile){
+    if(this.profiles[aFrom] == undefined){
+      this.profiles[aFrom] = {};
+    }
+    this.profiles[aFrom][aTo] = profile;
+};
+
+/**
+ * Factory-Function
+ * @param {HTML-Node-Textarea} textarea
+ * @param {Settings-Objekt} settings
+ */
+function translitify(textarea, settings) {
+    new translitifier(textarea, settings);
 }

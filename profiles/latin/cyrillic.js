@@ -1,12 +1,12 @@
 /*
  * Cyrillic alphabet; Transliteration  based on SEV/GHOST standard
  * but also a little bit modified
- * 
+ *
  * Numbers are decimal Unicode-Keycodes,
  * you can also use characters
- * 
+ *
  */
-var translitify_latin_cyrillic = {
+translitifier.prototype.addProfile('latin','cyrillic',{
 	'a': { 'upper': '1040', 'lower': '1072'},
 	'b': { 'upper': '1041', 'lower': '1073'},
 	'v': { 'upper': '1042', 'lower': '1074'},
@@ -24,57 +24,57 @@ var translitify_latin_cyrillic = {
 	'f': { 'upper': '1060', 'lower': '1092'},
 	'\'':{ 'upper': '1100'},
 	'"': { 'upper': '1098'},
-	'c': { 
-		'upper': '1062', 
+	'c': {
+		'upper': '1062',
 		'lower': '1094',
 		'children':{
 			'h': { 'upper': '1063', 'lower': '1095'}
 		}
 	},
-	'e': { 
-		'upper': '1045', 
+	'e': {
+		'upper': '1045',
 		'lower': '1077',
 		'children': {
 			'h':{'upper': '1069', 'lower' : '1101'}
 		}
 	},
-	'z': { 
-		'upper': '1047', 
+	'z': {
+		'upper': '1047',
 		'lower': '1079',
 		'children':{
 			'h': { 'upper': '1046', 'lower': '1078'}
 		}
-	},			
+	},
 	'y': { 'upper': '1067', 'lower': '1099'},
-	'k': { 
-		'upper': '1050', 
+	'k': {
+		'upper': '1050',
 		'lower': '1082',
 		'children':{
 			'h':{
-				'upper': '1061', 
+				'upper': '1061',
 				'lower': '1093'
 			}
 		}
 	},
 	's': {
-		'upper': '1057', 
+		'upper': '1057',
 		'lower': '1089',
-		'children':{ 
+		'children':{
 			'h': {
-				'upper': '1064', 
+				'upper': '1064',
 				'lower': '1096',
 				'children':{
 					'h': { 'upper' : '1065', 'lower': '1097'}
 				}
-			} 
+			}
 		}
-	},			
+	},
 	'j': {
-		'children':{ 
-			'o': {'upper': 'Ё', 'lower':'ё'}, 
+		'children':{
+			'o': {'upper': 'Ё', 'lower':'ё'},
 			'j': {'upper': '1049', 'lower': '1081'},
 			'u': {'upper': '1070', 'lower': '1102'},
 			'a': {'upper': '1071', 'lower': '1103'}
 		}
 	}
-}
+});

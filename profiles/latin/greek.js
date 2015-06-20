@@ -1,11 +1,11 @@
 /*
  * Greek alphabet (universal); Transliteration  based on ???
- * 
+ *
  * Numbers are decimal Unicode-Keycodes,
  * you can also use characters
- * 
+ *
  */
-var translitify_latin_greek = {
+translitifier.prototype.addProfile('latin','greek',{
 	'a': { 'upper': 'Α', 'lower': 'α'},//Alpha
 	'v': { 'upper': 'Β', 'lower': 'β'},//Beta
 	'g': { 'upper': 'Γ', 'lower': 'γ'},//Gamma
@@ -14,7 +14,7 @@ var translitify_latin_greek = {
 	'z': { 'upper': 'Ζ', 'lower': 'ζ'},//Zeta
 	'i': { 'upper': 'Η', 'lower': 'η'},//eta
 	//'i': { 'upper': 'Ι', 'lower': 'ι'},//iota
-	't': { 
+	't': {
 		'children':{
 			'h': { 'upper': 'Θ', 'lower': 'θ'}//Theta
 		}
@@ -27,8 +27,8 @@ var translitify_latin_greek = {
 	'o': { 'upper': 'Ο', 'lower': 'ο'},//Omikron
 	'p': { 'upper': 'Π', 'lower': 'π'},//Pi
 	'r': { 'upper': 'Ρ', 'lower': 'ρ'},//Rho
-	's': { 
-		'upper': 'Σ', 
+	's': {
+		'upper': 'Σ',
 		'lower': 'σ',
 		'children': {
 			' ': {'lower': 'ς'}//final
@@ -37,16 +37,16 @@ var translitify_latin_greek = {
 	't': { 'upper': 'Τ', 'lower': 'τ'},//Tau
 	'y': { 'upper': 'Υ', 'lower': 'υ'},//Ypsilon
 	'f': { 'upper': 'Φ', 'lower': 'φ'},//Phi
-	'c': { 
+	'c': {
 		'children': {
 			'h': { 'upper': 'Χ', 'lower': 'χ'}//Chi
 		}
 	},
-	'p': { 
+	'p': {
 		'children': {
 			's': { 'upper': 'Ψ', 'lower': 'ψ'}//Psi
 		}
 	}//,
 	//'o': { 'upper': 'Ω', 'lower': 'ω'} //Omega
 
-}
+});

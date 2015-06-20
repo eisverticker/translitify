@@ -24,12 +24,15 @@
 		<script>
 			/*
 			 * Example/Usage
-			 */ 
+			 */
 				var textarea = document.getElementById("transliterationInput");
 				textarea.isRussian = true;
-				translitify(textarea,translitify_latin_cyrillic);
-				
-				
+				translitify(textarea,{
+					'from': 'latin',
+					'to': 'cyrillic'
+				});
+
+
 				//On/Off
 				var power = document.getElementById("powerSwitch");
 				power.addEventListener('click', function(){
@@ -41,21 +44,21 @@
 						textarea.isTranslitified = true;
 					}
 				});
-				
+
 				//Switch script
 				var script = document.getElementById("scriptSwitch");
 				script.addEventListener('click', function(){
 					if(textarea.isRussian === true){
-						textarea.translitifier.setProfile(translitify_latin_greek);
+						textarea.translitifier.setProfile("latin","greek");
 						this.innerHTML = "Russian";
 						textarea.isRussian = false;
 					}else{
 						this.innerHTML = "Greek";
-						textarea.translitifier.setProfile(translitify_latin_cyrillic);
+						textarea.translitifier.setProfile("latin","cyrillic");
 						textarea.isRussian = true;
 					}
 				});
-		</script>		
-		
+		</script>
+
 	</body>
 </html>
