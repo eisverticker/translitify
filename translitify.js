@@ -1,7 +1,7 @@
 /*!
- * Translitify Tool 
+ * Translitify Tool
  * http://github.com/eisverticker/translitify
- * 
+ *
  * Transliteration made simple for textareas
  * Try it out!
  *
@@ -10,12 +10,12 @@
  */
 
 /* Table of contents:
- * 1. translitifyBase (Constructor-Function) 
+ * 1. translitifier (Constructor-Function)
  * 2. translitify (Function) -- uses 1.
  */
 
-//Prototype of Transliteration-Objects 
-function translitifyBase(textarea, profile) {
+//Prototype of Transliteration-Objects
+function translitifier(textarea, profile) {
 
     var me = this, //used for anon function in initTextArea..
 
@@ -78,7 +78,7 @@ function translitifyBase(textarea, profile) {
         //old IE 8 (hope it works - not tested)
         if (document.selection !== undefined) {
             document.selection.createRange().text = letter;
-            //newer browsers	
+            //newer browsers
         } else if (textarea.selectionStart !== undefined) {
             var val = textarea.value;
             var start = textarea.selectionStart;
@@ -103,12 +103,12 @@ function translitifyBase(textarea, profile) {
             var pos = oldValue.indexOf(String.fromCharCode(2622));
             textarea.value = oldValue.substr(0, pos) + oldValue.substr(pos + 1);
 
-            //newer browsers	
+            //newer browsers
         } else if (textarea.selectionStart !== undefined) {
 
             var val = textarea.value,
 				start;
-            
+
             if (textarea.selectionStart === 0) {
                 start = 0;
             } else {
@@ -134,7 +134,7 @@ function translitifyBase(textarea, profile) {
 
     }
 
-    //Returns something like "Shift", "A",... 
+    //Returns something like "Shift", "A",...
     function getKeyValue(event) {
 
         //Some browsers don't support event.key
@@ -235,9 +235,9 @@ function translitifyBase(textarea, profile) {
         var keyup = function (event) {
 
             var key = getKeyValue(event);
-            
+
             if (key === null) return;
-            
+
             if (locked === true && key == "Control") {
                 locked = false;
             }
@@ -323,7 +323,7 @@ function translitifyBase(textarea, profile) {
         //Activate transliteration by default
         textarea.isTranslitified = true;
 
-        //reference object	
+        //reference object
         textarea.translitifier = me;
     }
 
@@ -332,5 +332,5 @@ function translitifyBase(textarea, profile) {
 
 //Factory-Function
 function translitify(textarea, profile) {
-    new translitifyBase(textarea, profile);
+    new translitifier(textarea, profile);
 }
