@@ -1,8 +1,10 @@
 # translitify
+
 Javascript transliteration of Latin letters to the Cyrillic ones or to something else. 
 Applicable to any textarea and input (text).
 
-##German/Deutsch
+## German/Deutsch
+
 Dieses Modul ermöglicht es, ein Textfeld so umzuwandeln, 
 dass es Wörter erzeugen kann, welche nicht aus den Buchstaben des Alphabetes der Tastatur zusammengesetzt sind.
 Dabei werden zum Beispiel lateinische Buchstabenkombination wie "privet" in russische Buchstaben transliteriert (привет).
@@ -30,6 +32,7 @@ translitify(textfeld, translitify_latin_cyrillic);
 Nun sollte die Transliteration funktionieren.
 
 ### Sonstiges
+
 Transliteration deaktivieren:
 ```
 textfeld.isTranslitified = false;
@@ -46,6 +49,7 @@ textfeld.translitifier.setProfile(translitify_latin_greek);
 ```
 
 ## English
+
 This tool transliterates the letters you type into a specific textfield just in time.
 
 ### Usage:
